@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'robolectric'
 
 android {
     compileSdkVersion 21
@@ -11,6 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -19,7 +21,30 @@ android {
     }
 }
 
+robolectric {
+    include '**/*Test.class'
+    exclude '**/espresso/**/*.class'
+
+    maxHeapSize = '2048m'
+    jvmArgs '-XX:MaxPermSize=512m', '-XX:-UseSplitVerifier'
+
+    maxParallelForks = 4
+    forkEvery = 150
+
+    ignoreFailures true
+    afterTest { descriptor, result ->
+        println "Executing test for ${descriptor.name} with result: ${result.resultType}"
+    }
+}
+
 dependencies {
+    // production libraries
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
+
+    // testing libraries
+    androidTestCompile 'org.easytesting:fest:1.0.16'
+    androidTestCompile 'junit:junit:4.+'
+    androidTestCompile 'org.robolectric:robolectric:2.4'
+    androidTestCompile 'com.squareup:fest-android:1.0.8'
 }
