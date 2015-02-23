@@ -41,10 +41,11 @@ dependencies {
     // production libraries
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
+    compile('io.pivotal:arca:1.0-beta.3') { exclude module: 'support-v4' }
 
     // testing libraries
     androidTestCompile 'org.easytesting:fest:1.0.16'
-    androidTestCompile 'junit:junit:4.+'
+    androidTestCompile 'junit:junit:4.11'
     androidTestCompile 'org.robolectric:robolectric:2.4'
     androidTestCompile 'com.squareup:fest-android:1.0.8'
 }
