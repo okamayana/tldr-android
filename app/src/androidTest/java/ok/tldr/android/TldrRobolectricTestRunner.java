@@ -8,6 +8,10 @@ import org.robolectric.res.Fs;
 
 public class TldrRobolectricTestRunner extends RobolectricTestRunner {
 
+    private static final String MANIFEST_PATH = "../../../manifests/test/debug/AndroidManifest.xml";
+    private static final String RES_PATH = "../../../res/test/debug";
+    private static final String ASSETS_PATH = "../../../assets/test/debug";
+
     public TldrRobolectricTestRunner(Class<?> testClass) throws InitializationError {
         super(testClass);
     }
@@ -17,10 +21,11 @@ public class TldrRobolectricTestRunner extends RobolectricTestRunner {
         final String appPath = TldrRobolectricTestRunner.class
                 .getProtectionDomain().getCodeSource().getLocation().getPath();
 
-        final String manifestPath = appPath + "../../../manifests/test/debug/AndroidManifest.xml";
-        final String resPath = appPath + "../../../res/test/debug";
-        final String assetsPath = appPath + "../../../assets/test/debug";
+        final String manifestPath = appPath + MANIFEST_PATH;
+        final String resPath = appPath + RES_PATH;
+        final String assetsPath = appPath + ASSETS_PATH;
 
-        return createAppManifest(Fs.fileFromPath(manifestPath), Fs.fileFromPath(resPath), Fs.fileFromPath(assetsPath));
+        return createAppManifest(Fs.fileFromPath(manifestPath), Fs.fileFromPath(resPath),
+                Fs.fileFromPath(assetsPath));
     }
 }
