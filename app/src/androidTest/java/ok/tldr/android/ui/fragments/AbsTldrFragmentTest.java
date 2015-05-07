@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import org.robolectric.util.ActivityController;
 import ok.tldr.android.TldrRobolectricTestRunner;
 import ok.tldr.android.test.R;
 import ok.tldr.android.ui.managers.ViewStateManager;
+import ok.tldr.android.util.TestActivityUtil;
 
 import static org.fest.assertions.api.ANDROID.assertThat;
 
@@ -35,14 +37,14 @@ public class AbsTldrFragmentTest {
         activity = (Activity) activityController.create().start().resume().visible().get();
         fragment = new TestTldrFragment();
 
-        final FrameLayout contentView = new FrameLayout(activity);
-        contentView.setId(android.R.id.content);
-        activity.addContentView(contentView, new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+        TestActivityUtil.addFragmentToActivity(fragment, activity);
+    }
 
-        final FragmentManager fragmentManager = activity.getFragmentManager();
-        fragmentManager.beginTransaction().add(android.R.id.content, fragment).commit();
+    @After
+    public void tearDown() {
+        activityController.pause().stop().destroy();
+        activityController = null;
+        activity = null;
     }
 
     @Test
