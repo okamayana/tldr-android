@@ -3,7 +3,7 @@ apply plugin: 'robolectric'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
         applicationId "ok.tldr.android"
@@ -31,7 +31,7 @@ android {
         androidTest {
             setRoot('src/androidTest')
             java.srcDirs = ['src/androidTest/java']
-            res.srcDirs = ['src/androidTest/res']
+            res.srcDirs = ['src/androidTest/res', 'src/main/res']
         }
     }
 
@@ -63,15 +63,16 @@ robolectric {
 }
 
 dependencies {
-    // production libraries
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.android.support:appcompat-v7:22.1.1'
     compile('io.pivotal:arca:1.0-beta.3') { exclude module: 'support-v4' }
 
-    // testing libraries
     androidTestCompile 'junit:junit:4.11'
     androidTestCompile 'org.easytesting:fest:1.0.16'
     androidTestCompile 'org.robolectric:robolectric:2.4'
     androidTestCompile 'org.mockito:mockito-core:1.10.0'
-    androidTestCompile 'com.squareup:fest-android:1.0.8'
+    androidTestCompile 'com.android.support:support-v4:22.1.1'
+    androidTestCompile 'com.android.support:appcompat-v7:22.1.1'
+    androidTestCompile('com.squareup:fest-android:1.0.8') { exclude module: 'support-v4' }
 }
