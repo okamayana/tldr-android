@@ -16,7 +16,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.util.ActivityController;
 
 import ok.tldr.android.TldrRobolectricTestRunner;
-import ok.tldr.android.test.R;
+import ok.tldr.android.R;
 import ok.tldr.android.ui.managers.ViewStateManager;
 import ok.tldr.android.util.TestActivityUtil;
 
@@ -90,7 +90,7 @@ public class AbsTldrFragmentTest {
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.activity_tldr, container, false);
+            return inflater.inflate(R.layout.fragment_tldr, container, false);
         }
 
         @Override

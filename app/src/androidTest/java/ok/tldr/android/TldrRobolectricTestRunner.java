@@ -8,24 +8,23 @@ import org.robolectric.res.Fs;
 
 public class TldrRobolectricTestRunner extends RobolectricTestRunner {
 
-    private static final String MANIFEST_PATH = "../../../manifests/test/debug/AndroidManifest.xml";
-    private static final String RES_PATH = "../../../res/test/debug";
-    private static final String ASSETS_PATH = "../../../assets/test/debug";
+    private static final String KEY_PACKAGE = "android.package";
+    private static final String KEY_MANIFEST = "android.manifest";
+    private static final String KEY_RESOURCES = "android.resources";
+    private static final String KEY_ASSETS = "android.assets";
+
+    private static final String PATH_MANIFEST = "build/intermediates/manifests/full/";
+    private static final String PATH_RESOURCES = "build/intermediates/res/";
+    private static final String PATH_ASSETS = "build/intermediates/assets/";
 
     public TldrRobolectricTestRunner(Class<?> testClass) throws InitializationError {
         super(testClass);
-    }
 
-    @Override
-    protected AndroidManifest getAppManifest(Config config) {
-        final String appPath = TldrRobolectricTestRunner.class
-                .getProtectionDomain().getCodeSource().getLocation().getPath();
+        final String buildVariant = BuildConfig.BUILD_TYPE + (BuildConfig.FLAVOR.isEmpty()? "" : "/" + BuildConfig.FLAVOR);
 
-        final String manifestPath = appPath + MANIFEST_PATH;
-        final String resPath = appPath + RES_PATH;
-        final String assetsPath = appPath + ASSETS_PATH;
-
-        return createAppManifest(Fs.fileFromPath(manifestPath), Fs.fileFromPath(resPath),
-                Fs.fileFromPath(assetsPath));
+        System.setProperty(KEY_PACKAGE, BuildConfig.APPLICATION_ID);
+        System.setProperty(KEY_MANIFEST, PATH_MANIFEST + buildVariant + "/AndroidManifest.xml");
+        System.setProperty(KEY_RESOURCES, PATH_RESOURCES + buildVariant);
+        System.setProperty(KEY_ASSETS, PATH_ASSETS + buildVariant);
     }
 }

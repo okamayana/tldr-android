@@ -31,7 +31,7 @@ android {
         androidTest {
             setRoot('src/androidTest')
             java.srcDirs = ['src/androidTest/java']
-            res.srcDirs = ['src/androidTest/res', 'src/main/res']
+            res.srcDirs = ['src/main/res']
         }
     }
 
@@ -56,7 +56,7 @@ robolectric {
     maxParallelForks = 4
     forkEvery = 150
 
-    ignoreFailures true
+    ignoreFailures false
     afterTest { descriptor, result ->
         println "Executing test for ${descriptor.name} with result: ${result.resultType}"
     }
