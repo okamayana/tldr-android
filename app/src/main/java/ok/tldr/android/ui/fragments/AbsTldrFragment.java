@@ -5,8 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-import io.pivotal.arca.dispatcher.*;
 import io.pivotal.arca.dispatcher.Error;
+import io.pivotal.arca.dispatcher.ErrorListener;
+import io.pivotal.arca.dispatcher.ErrorReceiver;
+import io.pivotal.arca.dispatcher.Query;
+import io.pivotal.arca.dispatcher.QueryListener;
+import io.pivotal.arca.dispatcher.QueryResult;
 import io.pivotal.arca.fragments.ArcaDispatcherFactory;
 import io.pivotal.arca.monitor.ArcaDispatcher;
 import io.pivotal.arca.monitor.RequestMonitor;
@@ -30,12 +34,14 @@ public abstract class AbsTldrFragment<V extends View> extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         dispatcher = getRequestDispatcher();
         errorReceiver = getErrorReceiver();
         viewStateManager = new ViewStateManager(AbsTldrFragment.this);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -135,7 +141,8 @@ public abstract class AbsTldrFragment<V extends View> extends Fragment
         viewStateManager.moveToState(ViewStateManager.State.ERROR);
     }
 
-    protected void onRequestRestart() { }
+    protected void onRequestRestart() {
+    }
 
     abstract int getContentViewId();
 

@@ -39,7 +39,7 @@ public class AbsTldrFragmentTest {
     }
 
     @After
-    public void tearDown() {
+    public void teardown() {
         activityController.pause().stop().destroy();
         activityController = null;
         activity = null;
