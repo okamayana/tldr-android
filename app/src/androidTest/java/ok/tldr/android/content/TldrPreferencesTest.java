@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
+import org.robolectric.shadows.ShadowApplication;
 
 import ok.tldr.android.TldrRobolectricTestRunner;
 
@@ -19,57 +19,59 @@ public class TldrPreferencesTest {
 
     @Before
     public void setup() {
-        context = Robolectric.getShadowApplication().getApplicationContext();
+        context = ShadowApplication.getInstance().getApplicationContext();
+        TldrPreferences.init(context);
     }
 
     @After
     public void teardown() {
+        TldrPreferences.getInstance().clear();
         context = null;
     }
 
     @Test
     public void getAttribute_shouldShowLogin_shouldReturnTrue() {
-        final boolean shouldShowLogin = TldrPreferences.getShouldShowLogin(context);
+        final boolean shouldShowLogin = TldrPreferences.getInstance().getShouldShowLogin();
         assertThat(shouldShowLogin).isTrue();
     }
 
     @Test
     public void setAttribute_shouldShowLogin_shouldPersist() {
-        TldrPreferences.setShouldShowLogin(context, false);
-        assertThat(TldrPreferences.getShouldShowLogin(context)).isFalse();
+        TldrPreferences.getInstance().setShouldShowLogin(false);
+        assertThat(TldrPreferences.getInstance().getShouldShowLogin()).isFalse();
 
-        TldrPreferences.setShouldShowLogin(context, true);
-        assertThat(TldrPreferences.getShouldShowLogin(context)).isTrue();
+        TldrPreferences.getInstance().setShouldShowLogin(true);
+        assertThat(TldrPreferences.getInstance().getShouldShowLogin()).isTrue();
     }
 
     @Test
     public void getAttribute_username_shouldReturnEmptyString() {
-        final String username = TldrPreferences.getUsername(context);
+        final String username = TldrPreferences.getInstance().getUsername();
         assertThat(username).isNotNull();
         assertThat(username).isEqualTo("");
     }
 
     @Test
     public void setAttribute_username_shouldPersist() {
-        TldrPreferences.setUsername(context, "username");
+        TldrPreferences.getInstance().setUsername("username");
 
-        final String username = TldrPreferences.getUsername(context);
+        final String username = TldrPreferences.getInstance().getUsername();
         assertThat(username).isNotNull();
         assertThat(username).isEqualTo("username");
     }
 
     @Test
     public void getAttribute_accessToken_shouldReturnEmptyString() {
-        final String accessToken = TldrPreferences.getAccessToken(context);
+        final String accessToken = TldrPreferences.getInstance().getAccessToken();
         assertThat(accessToken).isNotNull();
         assertThat(accessToken).isEqualTo("");
     }
 
     @Test
     public void setAttribute_accessToken_shouldPersist() {
-        TldrPreferences.setAccessToken(context, "access_token");
+        TldrPreferences.getInstance().setAccessToken("access_token");
 
-        final String accessToken = TldrPreferences.getAccessToken(context);
+        final String accessToken = TldrPreferences.getInstance().getAccessToken();
         assertThat(accessToken).isNotNull();
         assertThat(accessToken).isEqualTo("access_token");
     }

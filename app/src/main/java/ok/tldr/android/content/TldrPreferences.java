@@ -13,47 +13,64 @@ public class TldrPreferences {
 
     private static final String NAME = "tldr_preferences";
 
-    public static boolean getShouldShowLogin(final Context context) {
-        return getBoolean(context, Keys.KEY_SHOULD_SHOW_LOGIN, true);
+    private static TldrPreferences instance;
+    private SharedPreferences preferences;
+
+    private TldrPreferences(final Context context) {
+        preferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
     }
 
-    public static void setShouldShowLogin(final Context context, final boolean isFirstLaunch) {
-        putBoolean(context, Keys.KEY_SHOULD_SHOW_LOGIN, isFirstLaunch);
+    public static void init(final Context context) {
+        if (instance == null) {
+            instance = new TldrPreferences(context);
+        }
     }
 
-    public static String getUsername(final Context context) {
-        return getString(context, Keys.KEY_USERNAME);
+    public static TldrPreferences getInstance() {
+        return instance;
     }
 
-    public static void setUsername(final Context context, final String username) {
-        putString(context, Keys.KEY_USERNAME, username);
+    public void clear() {
+        preferences.edit().clear().apply();
     }
 
-    public static String getAccessToken(final Context context) {
-        return getString(context, Keys.KEY_ACCESS_TOKEN);
+    public boolean getShouldShowLogin() {
+        return getBoolean(Keys.KEY_SHOULD_SHOW_LOGIN, true);
     }
 
-    public static void setAccessToken(final Context context, final String accessToken) {
-        putString(context, Keys.KEY_ACCESS_TOKEN, accessToken);
+    public void setShouldShowLogin(final boolean isFirstLaunch) {
+        putBoolean(Keys.KEY_SHOULD_SHOW_LOGIN, isFirstLaunch);
     }
 
-    private static String getString(final Context context, final String key) {
-        final SharedPreferences preferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
+    public String getUsername() {
+        return getString(Keys.KEY_USERNAME);
+    }
+
+    public void setUsername(final String username) {
+        putString(Keys.KEY_USERNAME, username);
+    }
+
+    public String getAccessToken() {
+        return getString(Keys.KEY_ACCESS_TOKEN);
+    }
+
+    public void setAccessToken(final String accessToken) {
+        putString(Keys.KEY_ACCESS_TOKEN, accessToken);
+    }
+
+    private String getString(final String key) {
         return preferences.getString(key, "");
     }
 
-    private static void putString(final Context context, final String key, final String value) {
-        final SharedPreferences preferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
+    private void putString(final String key, final String value) {
         preferences.edit().putString(key, value).apply();
     }
 
-    private static boolean getBoolean(final Context context, final String key, final boolean defaultValue) {
-        final SharedPreferences preferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
+    private boolean getBoolean(final String key, final boolean defaultValue) {
         return preferences.getBoolean(key, defaultValue);
     }
 
-    private static void putBoolean(final Context context, final String key, final boolean value) {
-        final SharedPreferences preferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
+    private void putBoolean(final String key, final boolean value) {
         preferences.edit().putBoolean(key, value).apply();
     }
 }
